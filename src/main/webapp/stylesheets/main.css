@@ -6,6 +6,7 @@ body {
 }
 header {
     color: #aaa;
+    height: 80px;
 }
 a:link {
     color: inherit;
@@ -42,7 +43,6 @@ a:active {
     margin-bottom: 30px;
 }
 input {
-    background-color: #aaa;
     font-size: 14px;
     margin:8px 0;
     padding: 12px 20px;
@@ -54,4 +54,13 @@ input[type=submit] {
 button {
     height: 40px;
     width: 80%
+}
+textarea {
+    width: 100%;
+}
+.addComment {
+    padding-top: 20px;
+}
+.mainSection {
+    margin-top: 80px;
 }

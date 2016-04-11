@@ -69,6 +69,12 @@ if (user != null) {
                     <a href="">${fn:escapeXml(user.nickname)}</a>
                 </li>
                 <li>
+                    <a href="">Home</a>
+                </li>
+                <li>
+                    <a href="">Friends</a>
+                </li>
+                <li>
                     <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a>
                 </li>
             </ul>
