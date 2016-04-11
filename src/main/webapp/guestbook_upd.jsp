@@ -6,6 +6,8 @@
 
 <%-- //[START imports]--%>
 <%@ page import="com.example.guestbook.Profile" %>
+<%@ page import="com.example.guestbook.Greeting" %>
+<%@ page import="com.example.guestbook.Guestbook" %>
 <%@ page import="com.googlecode.objectify.Key" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
 <%-- //[END imports]--%>
@@ -23,7 +25,7 @@
 
 <%
 String pageOwnerNickname = request.getParameter("pageOwnerNickname");
-if (pageOwnerNickname == null) {
+if (pageOwnerNickname == null || pageOwnerNickname.equals("")) {
     pageOwnerNickname = "__default__";
 }
 UserService userService = UserServiceFactory.getUserService();
@@ -103,16 +105,18 @@ if (pageOwnerNickname == "__default__") {
     pageContext.setAttribute("userInterests", userInterests);
     if (profile != null) {
         Boolean isYourProfile = false;
-        String cur_nickname = user.getNickname();
-        if (cur_nickname.contains("@")) {
-            cur_nickname = cur_nickname.substring(0, cur_nickname.indexOf("@"));
-        }
-        cur_nickname = cur_nickname.replace(".","");
-        if (user != null && cur_nickname.equals(pageOwnerNickname)) {
-            isYourProfile = true;
-            pageContext.setAttribute("readOnly", "");
-        } else {
-            pageContext.setAttribute("readOnly", "readonly");
+        if (user != null) {
+            String cur_nickname = user.getNickname();
+            if (cur_nickname.contains("@")) {
+                cur_nickname = cur_nickname.substring(0, cur_nickname.indexOf("@"));
+            }
+            cur_nickname = cur_nickname.replace(".","");
+            if (cur_nickname.equals(pageOwnerNickname)) {
+                isYourProfile = true;
+                pageContext.setAttribute("readOnly", "");
+            } else {
+                pageContext.setAttribute("readOnly", "readonly");
+            }
         }
 %>
 <p>Profile of <b>${fn:escapeXml(pageOwnerNickname)}</b>.</p>
@@ -146,8 +150,59 @@ if (pageOwnerNickname == "__default__") {
 <p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in FaceBook1994.</p>
 <%
     }
+
+// added after git push
+
+    // Create the correct Ancestor key
+      Key<Guestbook> theBook = Key.create(Guestbook.class, pageOwnerNickname);
+
+    // Run an ancestor query to ensure we see the most up-to-date
+    // view of the Greetings belonging to the selected Guestbook.
+      List<Greeting> greetings = ObjectifyService.ofy()
+          .load()
+          .type(Greeting.class) // We want only Greetings
+          .ancestor(theBook)    // Anyone in this book
+          .order("-date")       // Most recent first - date is indexed.
+          .limit(10)             // Only show 5 of them.
+          .list();
+    if (profile != null) {
+    if (greetings.isEmpty()) {
+    %>
+    <p>Guestbook of <b>${fn:escapeXml(pageOwnerNickname)}</b> has no messages.</p>
+    <%
+        } else {
+    %>
+    <p>Messages in Guestbook of <b>${fn:escapeXml(pageOwnerNickname)}</b>.</p>
+    <%
+          // Look at all of our greetings
+            for (Greeting greeting : greetings) {
+                pageContext.setAttribute("greeting_content", greeting.content);
+                String author;
+                if (greeting.author_email == null) {
+                    author = "An anonymous person";
+                } else {
+                    author = greeting.author_email;
+                    String author_id = greeting.author_id;
+                    if (user != null && user.getUserId().equals(author_id)) {
+                        author += " (You)";
+                    }
+                }
+                pageContext.setAttribute("greeting_user", author);
+    %>
+    <p><b>${fn:escapeXml(greeting_user)}</b> wrote:</p>
+    <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+    <%
+            }
+        }
+    }
 }
 %>
+
+<form action="/guestbook_upd.jsp" method="get">
+    <div><input type="text" name="pageOwnerNickname" value=""/></div>
+    <div><input type="submit" value="Go to profile"/></div>
+</form>
+<!-- here end of changes -->
 
 </body>
 </html>
