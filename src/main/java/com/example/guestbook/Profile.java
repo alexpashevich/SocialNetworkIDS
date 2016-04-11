@@ -9,6 +9,7 @@ import com.googlecode.objectify.annotation.Parent;
 
 import java.lang.String;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,6 +35,9 @@ public class Profile {
   public String user_age;
   public String user_address;
   public String user_interests;
+  public List<String> friends;
+  public List<String> friendRequests;
+
   public Profile() {
     user_email = "";
     user_nickname = "";
@@ -42,6 +46,8 @@ public class Profile {
     user_age = "";
     user_address = "";
     user_interests = "";
+    friends = new LinkedList<>();
+    friendRequests = new LinkedList<>();
   }
 
   public Profile(String email, String nickname) {
@@ -52,6 +58,8 @@ public class Profile {
     user_age = "";
     user_address = "";
     user_interests = "";
+    friends = new LinkedList<>();
+    friendRequests = new LinkedList<>();
   }
 
   public Profile(String email, String nickname, String fullname, String university, String age, String address, String interests) {
@@ -62,12 +70,51 @@ public class Profile {
     user_age = age;
     user_address = address;
     user_interests = interests;
+    friends = new LinkedList<>();
+    friendRequests = new LinkedList<>();
+  }
+
+  public void addFriendRequest(String newFriend) {
+
+    if( !friendRequests.contains( newFriend ))
+      friendRequests.add( newFriend );
+  }
+  public void removeFriendRequest(String newFriend) {
+
+      friendRequests.remove( newFriend );
+  }
+
+  public boolean approveFriend(String newFriend) {
+    if( friendRequests.contains( newFriend )) {
+      addFriend( newFriend );
+      removeFriendRequest( newFriend );
+      return true;
+    }
+    return false;
+  }
+
+  private void addFriend(String newFriend) {
+
+    if( !friends.contains( newFriend ))
+      friends.add( newFriend );
+  }
+
+  public void removeFriend(String friendToRemove) {
+    friends.remove( friendToRemove );
+  }
+
+  public List<String> getFriendsList() {
+    return friends;
+  }
+  public List<String> getFriendRequestsList() {
+    return friendRequests;
   }
 
   public void print() {
     System.out.println("(" + Long.toString(id) + "," + user_email + "," + user_nickname + "," + user_fullname + "," 
       + user_university + "," + user_age + "," + user_address + "," + user_interests + ")");
   }
+
 
 }
 //[END all]

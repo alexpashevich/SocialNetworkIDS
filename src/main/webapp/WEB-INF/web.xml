@@ -19,6 +19,16 @@
       <servlet-class>com.example.guestbook.SearchInterestsServlet</servlet-class>
     </servlet> -->
 
+    <servlet>
+        <servlet-name>add_friend</servlet-name>
+        <servlet-class>com.example.guestbook.AddFriendServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>approve_friend</servlet-name>
+        <servlet-class>com.example.guestbook.ApproveFriendServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
       <servlet-name>sign</servlet-name>
       <url-pattern>/sign</url-pattern>
@@ -33,6 +43,16 @@
       <servlet-name>search_interests</servlet-name>
       <url-pattern>/search_interests</url-pattern>
     </servlet-mapping> -->
+    
+    <servlet-mapping>
+        <servlet-name>add_friend</servlet-name>
+        <url-pattern>/add_friend</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>approve_friend</servlet-name>
+        <url-pattern>/approve_friend</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>guestbook_upd.jsp</welcome-file>
