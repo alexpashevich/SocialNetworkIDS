@@ -31,9 +31,9 @@ if (pageOwnerNickname == null || pageOwnerNickname.equals("")) {
 }
 UserService userService = UserServiceFactory.getUserService();
 User user = userService.getCurrentUser();
-
+String cur_nickname = "___default__ crrent nickname";
 if (user != null) {
-    String cur_nickname = user.getNickname();
+    cur_nickname = user.getNickname();
     if (cur_nickname.contains("@")) {
         cur_nickname = cur_nickname.substring(0, cur_nickname.indexOf("@"));
     }
@@ -114,6 +114,7 @@ if (pageOwnerNickname == "__default__") {
 <%
 } else {
     pageContext.setAttribute("pageOwnerNickname", pageOwnerNickname);
+    pageContext.setAttribute("cur_nickname", cur_nickname);
 
     String userFullname = "";
     String userUniversity = "";
@@ -146,7 +147,7 @@ if (pageOwnerNickname == "__default__") {
     if (profile != null) {
         Boolean isYourProfile = false;
         if (user != null) {
-            String cur_nickname = user.getNickname();
+            cur_nickname = user.getNickname();
             if (cur_nickname.contains("@")) {
                 cur_nickname = cur_nickname.substring(0, cur_nickname.indexOf("@"));
             }
@@ -183,6 +184,11 @@ if (pageOwnerNickname == "__default__") {
                 <%
                     } else {
                 %>
+                </form>
+                <form action="/add_friend" method="post">
+                    <input class="btn btn-info" type="submit" value="Add Friend" />
+                    <input type="hidden" name="currentUser" value="${fn:escapeXml(pageOwnerNickname)}"/>
+                    <input type="hidden" name="pageOwner" value="${fn:escapeXml(cur_nickname)}"/>
                 </form>
                 <%
                     }
