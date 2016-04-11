@@ -31,7 +31,7 @@ if (pageOwnerNickname == null || pageOwnerNickname.equals("")) {
 }
 UserService userService = UserServiceFactory.getUserService();
 User user = userService.getCurrentUser();
-String cur_nickname = "___default__ crrent nickname";
+String cur_nickname = "___default__ current nickname";
 if (user != null) {
     cur_nickname = user.getNickname();
     if (cur_nickname.contains("@")) {
@@ -187,8 +187,8 @@ if (pageOwnerNickname == "__default__") {
                 </form>
                 <form action="/add_friend" method="post">
                     <input class="btn btn-info" type="submit" value="Add Friend" />
-                    <input type="hidden" name="currentUser" value="${fn:escapeXml(pageOwnerNickname)}"/>
-                    <input type="hidden" name="pageOwner" value="${fn:escapeXml(cur_nickname)}"/>
+                    <input type="hidden" name="currentUser" value="${fn:escapeXml(cur_nickname)}"/>
+                    <input type="hidden" name="pageOwner" value="${fn:escapeXml(pageOwnerNickname)}"/>
                 </form>
                 <%
                     }
@@ -200,7 +200,7 @@ if (pageOwnerNickname == "__default__") {
 
 
 
-<p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in FaceBook1994.</p>
+    <p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in FaceBook1994.</p>
 <%
     }
 

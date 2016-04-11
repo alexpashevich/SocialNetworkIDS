@@ -20,7 +20,6 @@ package com.example.guestbook;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,24 +27,32 @@ import javax.servlet.http.HttpServletResponse;
 import com.googlecode.objectify.ObjectifyService;
 
 /**
- * Adding friend Handling Servlet
- * Adds current user nickname to pageOwner's friendRequests list
+ * Approving friend Handling Servlet
  */
-public class AddFriendServlet extends HttpServlet {
+public class ApproveFriendServlet extends HttpServlet {
 
     // Process the http POST of the form
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String currentUser = req.getParameter("currentUser");
-        String pageOwner = req.getParameter("pageOwner");
+        String newFriend = req.getParameter("newFriend");
 
-        Profile pageOwnerProfile = ObjectifyService.ofy().load().type(Profile.class)
-                .filter("user_nickname =", pageOwner).first().now();
+        // get profile objs
+        Profile currUserProfile = ObjectifyService.ofy().load().type(Profile.class)
+                .filter("user_nickname =", currentUser).first().now();
 
-        pageOwnerProfile.addFriendRequest( currentUser );
+        Profile newFriendProfile = ObjectifyService.ofy().load().type(Profile.class)
+                .filter("user_nickname =", newFriend).first().now();
 
-        ObjectifyService.ofy().save().entity(pageOwnerProfile).now();
+        boolean approved = currUserProfile.approveFriend( newFriend );
+        if ( approved ) {
+            newFriendProfile.approveFriend( currentUser );
+        }
+
+        // save profile objs
+        ObjectifyService.ofy().save().entity(currUserProfile).now();
+        ObjectifyService.ofy().save().entity(newFriendProfile).now();
 
 /*
         resp.setContentType("text/html");
@@ -55,12 +62,13 @@ public class AddFriendServlet extends HttpServlet {
         out.println("<title>Friend added</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>Friend " + currentUser + " wants to add " + pageOwner + " to his friend list!</h1>");
-        for ( String friend : pageOwnerProfile.getFriendRequestsList() ) {
+        out.println("<h1>Friend " + currentUser + " wants to add " + newFriend + " to his friend list!</h1>");
+        for ( String friend : currUserProfile.getFriendsList() ) {
             out.println("<h3>Friend " + friend + "</h3>");
         }
         out.println("</body>");
         out.println("</html>");
- */
+*/
+        resp.sendRedirect("/friendRequest.jsp?pageOwnerNickname=" + currentUser);
     }
 }

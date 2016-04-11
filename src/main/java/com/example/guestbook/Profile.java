@@ -36,6 +36,7 @@ public class Profile {
   public String user_address;
   public String user_interests;
   public List<String> friends;
+  public List<String> friendRequests;
 
   public Profile() {
     user_email = "";
@@ -46,6 +47,7 @@ public class Profile {
     user_address = "";
     user_interests = "";
     friends = new LinkedList<>();
+    friendRequests = new LinkedList<>();
   }
 
   public Profile(String email, String nickname) {
@@ -57,6 +59,7 @@ public class Profile {
     user_address = "";
     user_interests = "";
     friends = new LinkedList<>();
+    friendRequests = new LinkedList<>();
   }
 
   public Profile(String email, String nickname, String fullname, String university, String age, String address, String interests) {
@@ -68,10 +71,32 @@ public class Profile {
     user_address = address;
     user_interests = interests;
     friends = new LinkedList<>();
+    friendRequests = new LinkedList<>();
   }
 
-  public void addFriend(String newFriend) {
-    friends.add( newFriend );
+  public void addFriendRequest(String newFriend) {
+
+    if( !friendRequests.contains( newFriend ))
+      friendRequests.add( newFriend );
+  }
+  public void removeFriendRequest(String newFriend) {
+
+      friendRequests.remove( newFriend );
+  }
+
+  public boolean approveFriend(String newFriend) {
+    if( friendRequests.contains( newFriend )) {
+      addFriend( newFriend );
+      removeFriendRequest( newFriend );
+      return true;
+    }
+    return false;
+  }
+
+  private void addFriend(String newFriend) {
+
+    if( !friends.contains( newFriend ))
+      friends.add( newFriend );
   }
 
   public void removeFriend(String friendToRemove) {
@@ -80,6 +105,9 @@ public class Profile {
 
   public List<String> getFriendsList() {
     return friends;
+  }
+  public List<String> getFriendRequestsList() {
+    return friendRequests;
   }
 
   public void print() {
