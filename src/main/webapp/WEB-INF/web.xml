@@ -14,6 +14,11 @@
       <servlet-class>com.example.guestbook.SubmitChangesServlet</servlet-class>
     </servlet>
 
+<!--     <servlet>
+      <servlet-name>search_interests</servlet-name>
+      <servlet-class>com.example.guestbook.SearchInterestsServlet</servlet-class>
+    </servlet> -->
+
     <servlet-mapping>
       <servlet-name>sign</servlet-name>
       <url-pattern>/sign</url-pattern>
@@ -23,6 +28,11 @@
       <servlet-name>submit_changes</servlet-name>
       <url-pattern>/submit_changes</url-pattern>
     </servlet-mapping>
+
+<!--     <servlet-mapping>
+      <servlet-name>search_interests</servlet-name>
+      <url-pattern>/search_interests</url-pattern>
+    </servlet-mapping> -->
 
     <welcome-file-list>
         <welcome-file>guestbook_upd.jsp</welcome-file>

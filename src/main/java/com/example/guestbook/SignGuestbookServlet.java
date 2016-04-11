@@ -53,9 +53,10 @@ public class SignGuestbookServlet extends HttpServlet {
     User user = userService.getCurrentUser();  // Find out who the user is.
 
     String guestbookName = req.getParameter("guestbookName");
+    String nickname = req.getParameter("nickname");
     String content = req.getParameter("content");
     if (user != null) {
-      greeting = new Greeting(guestbookName, content, user.getUserId(), user.getEmail());
+      greeting = new Greeting(guestbookName, content, user.getUserId(), nickname);
     } else {
       greeting = new Greeting(guestbookName, content);
     }
@@ -64,7 +65,7 @@ public class SignGuestbookServlet extends HttpServlet {
     // will immediately get a new page using redirect and we want the data to be present.
     ObjectifyService.ofy().save().entity(greeting).now();
 
-    resp.sendRedirect("/guestbook.jsp?guestbookName=" + guestbookName);
+    resp.sendRedirect("/guestbook_upd.jsp?pageOwnerNickname=" + guestbookName);
   }
 }
 //[END all]
