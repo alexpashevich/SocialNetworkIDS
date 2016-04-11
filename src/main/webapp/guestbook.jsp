@@ -17,7 +17,10 @@
 
 <html>
 <head>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+    <%--<link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>--%>
+    <link href="stylesheets/vendor/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/login.css">
+
 </head>
 
 <body>
@@ -91,15 +94,34 @@
     }
 %>
 
-<form action="/sign" method="post">
-    <div><textarea name="content" rows="3" cols="60"></textarea></div>
-    <div><input type="submit" value="Post Greeting"/></div>
-    <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
-</form>
+<div class="container">
+    <div class="center">
+        <div class="header">
+            <h1>Form test</h1>
+        </div>
+        <div class="form">
+            <form action="/sign" method="post">
+                <div>
+                    <textarea name="content" rows="3" cols="60"></textarea>
+                </div>
+                <div>
+                    <input class="btn btn-success" id="submit" type="submit" value="Post Greeting"/>
+                </div>
+                <input type="hidden" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <%-- //[END datastore]--%>
 <form action="/guestbook.jsp" method="get">
-    <div><input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/></div>
-    <div><input type="submit" value="Switch Guestbook"/></div>
+    <div>
+        <input type="text" name="guestbookName" value="${fn:escapeXml(guestbookName)}"/>
+    </div>
+    <div>
+        <input class="btn btn-success" type="submit" value="Switch Guestbook"/>
+    </div>
 </form>
 
 </body>

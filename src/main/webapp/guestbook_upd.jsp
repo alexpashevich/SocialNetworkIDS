@@ -16,6 +16,7 @@
 <html>
 <head>
     <title>FaceBook1994</title>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/vendor/bootstrap.min.css"/>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
 </head>
 
@@ -55,20 +56,53 @@ if (user != null) {
     pageContext.setAttribute("userEmail", user.getEmail());
 %>
 
-<p>Hello, ${fn:escapeXml(user.nickname)}! (You can
-    <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>
+<header>
+    <nav id="mainHeader" class="nabvar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <img id="logo" class="img-responsive" src="" alt="Logo">
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
+                <li>
+                    <a href="">${fn:escapeXml(user.nickname)}</a>
+                </li>
+                <li>
+                    <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<%--<p>Hello, ${fn:escapeXml(user.nickname)}! (You can--%>
+    <%--<a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">sign out</a>.)</p>--%>
 <%
 } else {
 %>
-<p>Hello!
-    <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>
-    to use the FaceBook1994.</p>
+
+<div class="container text-center">
+    <div class="center">
+        <div class="header">
+            <h1>Welcome to FaceBook1994!</h1>
+        </div>
+        <div class="form">
+            <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">
+                <button class="btn btn-success">Sign in</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+
 <%
 }
 
 if (pageOwnerNickname == "__default__") {
 %>
-<p><h1>Welcome to FaceBook1994!</h1><p>
+<%--<p><h1>Welcome to FaceBook1994!</h1><p>--%>
 <%
 } else {
     pageContext.setAttribute("pageOwnerNickname", pageOwnerNickname);
@@ -115,34 +149,41 @@ if (pageOwnerNickname == "__default__") {
             pageContext.setAttribute("readOnly", "readonly");
         }
 %>
-<p>Profile of <b>${fn:escapeXml(pageOwnerNickname)}</b>.</p>
+<div class="container text-center">
+    <div class="center">
+        <div class="header">
+            <h1>Profile of <b>${fn:escapeXml(pageOwnerNickname)}</b>.</h1>
+        </div>
+        <div class="form">
+            <form action="/submit_changes" method="post">
+                <input class="form-control" type="text" name="user_fullname" placeholder="Full name: " value="${fn:escapeXml(userFullname)}" ${fn:escapeXml(readOnly)} >
+                <input class="form-control" type="text" name="user_university" placeholder="University: "  value="${fn:escapeXml(userUniversity)}" ${fn:escapeXml(readOnly)} >
+                <input class="form-control" type="text" name="user_age" placeholder="Age: " value="${fn:escapeXml(userAge)}" ${fn:escapeXml(readOnly)} >
+                <input class="form-control" type="text" name="user_address" placeholder="Address: " value="${fn:escapeXml(userAddress)}" ${fn:escapeXml(readOnly)} >
+                <input class="form-control" type="text" name="user_interests" placeholder="Interests: " value="${fn:escapeXml(userInterests)}" ${fn:escapeXml(readOnly)} >
+                <input type="hidden" name="user_nickname" value="${fn:escapeXml(pageOwnerNickname)}"/>
+                <input type="hidden" name="user_email" value="${fn:escapeXml(userEmail)}"/>
+                <%
+                    if (isYourProfile) {
+                %>
+                <div>
+                    <input class="btn btn-success" type="submit" value="Submit changes"/>
+                </div>
+                </form>
+                <%
+                    } else {
+                %>
+                </form>
+                <%
+                    }
+                    } else {
+                %>
+        </div>
+    </div>
+</div>
 
-<form action="/submit_changes" method="post">
-  Full name:
-  <input type="text" name="user_fullname" value="${fn:escapeXml(userFullname)}" ${fn:escapeXml(readOnly)} ><br>
-  University:
-  <input type="text" name="user_university" value="${fn:escapeXml(userUniversity)}" ${fn:escapeXml(readOnly)} ><br>
-  Age:
-  <input type="text" name="user_age" value="${fn:escapeXml(userAge)}" ${fn:escapeXml(readOnly)} ><br>
-  Address:
-  <input type="text" name="user_address" value="${fn:escapeXml(userAddress)}" ${fn:escapeXml(readOnly)} ><br>
-  Interests:
-  <input type="text" name="user_interests" value="${fn:escapeXml(userInterests)}" ${fn:escapeXml(readOnly)} ><br>
-  <input type="hidden" name="user_nickname" value="${fn:escapeXml(pageOwnerNickname)}"/>
-  <input type="hidden" name="user_email" value="${fn:escapeXml(userEmail)}"/>
-<%
-        if (isYourProfile) {
-%>
-  <div><input type="submit" value="Submit changes"/></div>
-  </form>
-<%
-        } else {
-%>
-    </form>
-<%
-        }
-    } else {
-%>
+
+
 <p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in FaceBook1994.</p>
 <%
     }
