@@ -19,8 +19,9 @@
 <html>
 <head>
     <title>OurBook</title>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/vendor/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+    <link type="text/css" rel="stylesheet" href="stylesheets/vendor/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="stylesheets/main.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32x32.png">
 </head>
 
 <body>
@@ -65,7 +66,7 @@ if (user != null) {
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
-                    <img id="logo" class="img-responsive" src="" alt="Logo">
+                    <img id="logo" class="img-responsive" src="imgs/logo.gif" alt="Logo">
                 </a>
             </div>
             <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
