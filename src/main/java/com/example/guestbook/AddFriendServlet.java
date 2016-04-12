@@ -62,8 +62,10 @@ public class AddFriendServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
  */
-        resp.sendRedirect("/guestbook_upd.jsp?pageOwnerNickname=" + pageOwner);
+//        resp.sendRedirect("/guestbook_upd.jsp?pageOwnerNickname=" + pageOwner);
+        resp.sendRedirect(".");
     }
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doPost(req, resp);
