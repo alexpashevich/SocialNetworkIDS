@@ -41,6 +41,9 @@ a:active {
 
     /*padding-top: 40px;*/
 }
+.userlist li a, .userlist li a:visited, .userlist li a:hover, .userlist li a:active, .userlist li.active a{
+    color: #5bc0de;
+}
 .header {
     color: #aaa;
     margin-bottom: 30px;
