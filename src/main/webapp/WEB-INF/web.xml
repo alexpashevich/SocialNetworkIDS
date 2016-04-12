@@ -24,6 +24,11 @@
         <servlet-class>com.example.guestbook.ApproveFriendServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>remove_friend</servlet-name>
+        <servlet-class>com.example.guestbook.RemoveFriendServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
       <servlet-name>sign</servlet-name>
       <url-pattern>/sign</url-pattern>
@@ -42,6 +47,11 @@
     <servlet-mapping>
         <servlet-name>approve_friend</servlet-name>
         <url-pattern>/approve_friend</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>remove_friend</servlet-name>
+        <url-pattern>/remove_friend</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

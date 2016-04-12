@@ -1,0 +1,22 @@
+.requestsList li,
+.friendsList li {
+    margin-top: 10px;
+    border-bottom: solid 1px #aaa;
+    padding: 10px;
+}
+.requestsList li:last-child,
+.friendsList li:last-child {
+    border-bottom: none;
+}
+
+.approve,
+.disapprove,
+.friendRequest {
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 30px;
+    width: 100px;
+}
+.friendRequest {
+
+}

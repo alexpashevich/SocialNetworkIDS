@@ -31,38 +31,27 @@ import com.googlecode.objectify.ObjectifyService;
  * Adding friend Handling Servlet
  * Adds current user nickname to pageOwner's friendRequests list
  */
-public class AddFriendServlet extends HttpServlet {
+public class RemoveFriendServlet extends HttpServlet {
 
     // Process the http POST of the form
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String currentUser = req.getParameter("currentUser");
-        String pageOwner = req.getParameter("pageOwner");
+        String friendToRemove = req.getParameter("friend");
 
-        Profile pageOwnerProfile = ObjectifyService.ofy().load().type(Profile.class)
-                .filter("user_nickname =", pageOwner).first().now();
+        Profile currUserProfile = ObjectifyService.ofy().load().type(Profile.class)
+                .filter("user_nickname =", friendToRemove).first().now();
+        Profile friendProfile = ObjectifyService.ofy().load().type(Profile.class)
+                .filter("user_nickname =", friendToRemove).first().now();
 
-        pageOwnerProfile.addFriendRequest( currentUser );
+        friendProfile.removeFriend( currentUser );
+        currUserProfile.removeFriend( friendToRemove );
 
-        ObjectifyService.ofy().save().entity(pageOwnerProfile).now();
+        ObjectifyService.ofy().save().entity(currUserProfile).now();
+        ObjectifyService.ofy().save().entity(friendProfile).now();
 
-/*
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Friend added</title>");
-        out.println("</head>");
-        out.println("<body>");
-        out.println("<h1>Friend " + currentUser + " wants to add " + pageOwner + " to his friend list!</h1>");
-        for ( String friend : pageOwnerProfile.getFriendRequestsList() ) {
-            out.println("<h3>Friend " + friend + "</h3>");
-        }
-        out.println("</body>");
-        out.println("</html>");
- */
-        resp.sendRedirect("/guestbook_upd.jsp?pageOwnerNickname=" + pageOwner);
+        resp.sendRedirect("/friendRequests.jsp?pageOwnerNickname=" + currentUser);
     }
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

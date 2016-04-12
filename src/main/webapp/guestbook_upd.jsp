@@ -56,6 +56,7 @@ if (user != null) {
 
     pageContext.setAttribute("user", user);
     pageContext.setAttribute("userEmail", user.getEmail());
+    pageContext.setAttribute("cur_user", cur_nickname);
 %>
 
 <header>
@@ -71,10 +72,10 @@ if (user != null) {
                     <a href="">${fn:escapeXml(user.nickname)}</a>
                 </li>
                 <li>
-                    <a href="">Home</a>
+                    <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_user)}">Home</a>
                 </li>
                 <li>
-                    <a href="">Friends</a>
+                    <a href="/friendRequests.jsp?pageOwnerNickname=${fn:escapeXml(cur_user)}">Friends</a>
                 </li>
                 <li>
                     <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a>

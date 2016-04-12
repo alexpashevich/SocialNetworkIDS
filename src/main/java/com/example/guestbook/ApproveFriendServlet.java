@@ -35,6 +35,8 @@ public class ApproveFriendServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+        String action = req.getParameter("action");
+
         String currentUser = req.getParameter("currentUser");
         String newFriend = req.getParameter("newFriend");
 
@@ -42,17 +44,24 @@ public class ApproveFriendServlet extends HttpServlet {
         Profile currUserProfile = ObjectifyService.ofy().load().type(Profile.class)
                 .filter("user_nickname =", currentUser).first().now();
 
-        Profile newFriendProfile = ObjectifyService.ofy().load().type(Profile.class)
-                .filter("user_nickname =", newFriend).first().now();
-
-        boolean approved = currUserProfile.approveFriend( newFriend );
-        if ( approved ) {
-            newFriendProfile.approveFriend( currentUser );
+        if ( currUserProfile != null ) {
+            if ( "approve".equals(action) ) {
+                Profile newFriendProfile = ObjectifyService.ofy().load().type(Profile.class)
+                        .filter("user_nickname =", newFriend).first().now();
+                if ( newFriendProfile != null ) {
+                    boolean approved = currUserProfile.approveFriend( newFriend );
+                    if ( approved ) {
+                        newFriendProfile.approveFriend( currentUser );
+                    }
+                    ObjectifyService.ofy().save().entity(newFriendProfile).now();
+                }
+            } else if ( "disapprove".equals(action) ) {
+                currUserProfile.removeFriendRequest( newFriend );
+            }
+            // save profile objs
+            ObjectifyService.ofy().save().entity(currUserProfile).now();
         }
 
-        // save profile objs
-        ObjectifyService.ofy().save().entity(currUserProfile).now();
-        ObjectifyService.ofy().save().entity(newFriendProfile).now();
 
 /*
         resp.setContentType("text/html");
@@ -69,6 +78,10 @@ public class ApproveFriendServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
 */
-        resp.sendRedirect("/friendRequest.jsp?pageOwnerNickname=" + currentUser);
+        resp.sendRedirect("/friendRequests.jsp?pageOwnerNickname=" + currentUser);
+    }
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        doPost(req, resp);
     }
 }
