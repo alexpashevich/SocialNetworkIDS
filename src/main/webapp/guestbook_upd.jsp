@@ -185,6 +185,9 @@ if (user != null) {
 <%
         }
 %>
+                <a href="browseFriends.jsp?pageOwnerNickname=${fn:escapeXml(pageOwnerNickname)}">
+                    <button class="btn btn-info browseBtn">Browse Friends</button>
+                </a>
             </div>
             <div class="addComment">
                 <div class="header text-center">
@@ -277,11 +280,6 @@ if (user != null) {
 %>
         </div>
 
-    </div>
-    <div class="browseBtn">
-        <a href="browseFriends.jsp?pageOwnerNickname=${fn:escapeXml(pageOwnerNickname)}">
-            <button class="btn btn-info">Browse Friends</button>
-        </a>
     </div>
 <%--</div>--%>
         <%
