@@ -236,7 +236,7 @@ if (user != null) {
                 </div>
             </form>
         </div>
-        <!-- <div class="col-md-12">
+        <div class="col-md-12">
             <div class="header text-center">
                 <h1>Search interests</h1>
             </div>
@@ -248,7 +248,7 @@ if (user != null) {
                     <input class="btn btn-success" type="submit" value="Search interests"/>
                 </div>
             </form>
-        </div> -->
+        </div>
     </div>
 </div>
         <%
