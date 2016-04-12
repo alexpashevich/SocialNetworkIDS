@@ -41,7 +41,7 @@ public class RemoveFriendServlet extends HttpServlet {
         String friendToRemove = req.getParameter("friend");
 
         Profile currUserProfile = ObjectifyService.ofy().load().type(Profile.class)
-                .filter("user_nickname =", friendToRemove).first().now();
+                .filter("user_nickname =", currentUser).first().now();
         Profile friendProfile = ObjectifyService.ofy().load().type(Profile.class)
                 .filter("user_nickname =", friendToRemove).first().now();
 

@@ -57,7 +57,7 @@
                 </div>
                 <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                     <li>
-                        <a href="">${fn:escapeXml(user.nickname)}</a>
+                        <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_user)}">${fn:escapeXml(user.nickname)}</a>
                     </li>
                     <li>
                         <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_user)}">Home</a>
@@ -89,11 +89,11 @@
                     friendsList = currUserProfile.getFriendsList();
                     if (friendsList.isEmpty()) {
             %>
-            <p>You have no friends :(</p>
+            <h3>You have no friends :(</h3>
             <%
                     } else {
             %>
-            <p>Friends list:</p>
+            <h3>Friends list:</h3>
             <ul class="list-unstyled friendsList">
 
                 <%
@@ -101,14 +101,16 @@
                         pageContext.setAttribute("yourFriend", friend);
                 %>
                 <li>
-                    <a href="guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(yourFriend)}">
-                        <span class="friendItem">${fn:escapeXml(yourFriend)}</span>
-                    </a>
-
-                    <a href="/remove_friend?currentUser=${fn:escapeXml(cur_user)}&friend=${fn:escapeXml(yourFriend)}">
-                        <button class="btn btn-danger disapprove">Remove</button>
-                    </a>
-
+                    <div class="col-md-6">
+                        <a href="guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(yourFriend)}">
+                            <button class="textBtn">${fn:escapeXml(yourFriend)}</button>
+                        </a>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="/remove_friend?currentUser=${fn:escapeXml(cur_user)}&friend=${fn:escapeXml(yourFriend)}">
+                            <button class="btn btn-danger disapprove">Remove</button>
+                        </a>
+                    </div>
                 </li>
                 <%
                     }
@@ -125,11 +127,11 @@
                         if (reqList.isEmpty()) {
 
             %>
-            <p>You have no new friend requests.</p>
+            <h3>You have no new friend requests.</h3>
             <%
                         } else {
             %>
-            <p>Friend requests:</p>
+            <h3>Friend requests:</h3>
             <ul class="list-unstyled requestsList">
 
             <%
@@ -138,16 +140,21 @@
                                 pageContext.setAttribute("friendReq", friend);
             %>
                 <li>
-                    <a href="guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(friendReq)}">
-                        <span class="friendRequest">${fn:escapeXml(friendReq)}</span>
-                    </a>
-                    <a href="/approve_friend?action=approve&currentUser=${fn:escapeXml(cur_user)}&newFriend=${fn:escapeXml(friendReq)}">
-                        <button class="btn btn-info approve">Approve</button>
-                    </a>
-                    <a href="/approve_friend?action=disapprove&currentUser=${fn:escapeXml(cur_user)}&newFriend=${fn:escapeXml(friendReq)}">
-                        <button class="btn btn-danger disapprove">Remove</button>
-                    </a>
-
+                    <div class="col-md-4">
+                        <a href="guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(friendReq)}">
+                            <button class="textBtn">${fn:escapeXml(friendReq)}</button>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/approve_friend?action=approve&currentUser=${fn:escapeXml(cur_user)}&newFriend=${fn:escapeXml(friendReq)}">
+                            <button class="btn btn-info approve">Approve</button>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/approve_friend?action=disapprove&currentUser=${fn:escapeXml(cur_user)}&newFriend=${fn:escapeXml(friendReq)}">
+                            <button class="btn btn-danger disapprove">Remove</button>
+                        </a>
+                    </div>
                 </li>
             <%
                             }
@@ -168,6 +175,7 @@
     </section>
 <%
 } else {
+    response.sendRedirect("guestbook_upd.jsp");
     %>
     <p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in FaceBook1994.</p>
     <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">Sign in</a>

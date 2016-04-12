@@ -51,7 +51,7 @@ public class ApproveFriendServlet extends HttpServlet {
                 if ( newFriendProfile != null ) {
                     boolean approved = currUserProfile.approveFriend( newFriend );
                     if ( approved ) {
-                        newFriendProfile.approveFriend( currentUser );
+                        newFriendProfile.addFriend( currentUser );
                     }
                     ObjectifyService.ofy().save().entity(newFriendProfile).now();
                 }

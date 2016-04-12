@@ -93,7 +93,7 @@ public class Profile {
     return false;
   }
 
-  private void addFriend(String newFriend) {
+  public void addFriend(String newFriend) {
 
     if( !friends.contains( newFriend ))
       friends.add( newFriend );

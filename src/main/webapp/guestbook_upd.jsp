@@ -13,6 +13,7 @@
 <%-- //[END imports]--%>
 
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.LinkedList" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
@@ -69,7 +70,7 @@ if (user != null) {
             </div>
             <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                 <li>
-                    <a href="">${fn:escapeXml(user.nickname)}</a>
+                    <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_user)}">${fn:escapeXml(user.nickname)}</a>
                 </li>
                 <li>
                     <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_user)}">Home</a>
@@ -98,6 +99,7 @@ if (user != null) {
     String userAge = "";
     String userAddress = "";
     String userInterests = "";
+    LinkedList<String> friendsList = new LinkedList<String>();
 
     // debug
     List<Profile> allProfilesFiltered = ObjectifyService.ofy().load().type(Profile.class)
@@ -114,6 +116,7 @@ if (user != null) {
         userAge = profile.user_age;
         userAddress = profile.user_address;
         userInterests = profile.user_interests;
+        friendsList = (LinkedList<String>) profile.friends;
     }
 
     pageContext.setAttribute("userFullname", userFullname);
@@ -123,6 +126,12 @@ if (user != null) {
     pageContext.setAttribute("userInterests", userInterests);
 
     if (profile != null) {
+        // @Marcin: check if pageOwner is already your friend
+        Boolean addFriend = true;
+        if ( friendsList.contains( cur_nickname ) ) {
+            addFriend = false;
+        }
+        //
         Boolean isYourProfile = false;
         //String cur_nickname = user.getNickname();
         //if (cur_nickname.contains("@")) {
@@ -156,11 +165,17 @@ if (user != null) {
                 <div>
                     <input class="btn btn-success" type="submit" value="Submit changes"/>
                 </div>
-                </form>
+            </form>
 <%
+            // @Marcin
         } else {
 %>
             </form>
+<%
+        }
+
+         if ( addFriend && !isYourProfile ) {
+%>
             <form action="/add_friend" method="post">
                     <input class="btn btn-info" type="submit" value="Add Friend" />
                     <input type="hidden" name="currentUser" value="${fn:escapeXml(cur_nickname)}"/>
