@@ -146,27 +146,27 @@ if (user != null) {
             pageContext.setAttribute("readOnly", "readonly");
         }
 %>
-<div class="container text-center">
-    <div class="center">
-        <div class="header">
-            <h1>Profile of <b>${fn:escapeXml(pageOwnerNickname)}</b></h1>
-        </div>
-        <div class="form">
-            <form action="/submit_changes" method="post">
-                <input class="form-control" type="text" name="user_fullname" placeholder="Full name: " value="${fn:escapeXml(userFullname)}" ${fn:escapeXml(readOnly)} >
-                <input class="form-control" type="text" name="user_university" placeholder="University: "  value="${fn:escapeXml(userUniversity)}" ${fn:escapeXml(readOnly)} >
-                <input class="form-control" type="text" name="user_age" placeholder="Age: " value="${fn:escapeXml(userAge)}" ${fn:escapeXml(readOnly)} >
-                <input class="form-control" type="text" name="user_address" placeholder="Address: " value="${fn:escapeXml(userAddress)}" ${fn:escapeXml(readOnly)} >
-                <input class="form-control" type="text" name="user_interests" placeholder="Interests: " value="${fn:escapeXml(userInterests)}" ${fn:escapeXml(readOnly)} >
-                <input type="hidden" name="user_nickname" value="${fn:escapeXml(pageOwnerNickname)}"/>
-                <input type="hidden" name="user_email" value="${fn:escapeXml(userEmail)}"/>
+    <div class="container mainSection">
+        <div class="col-md-6">
+            <div class="header text-center">
+                <h1>Profile of <b>${fn:escapeXml(pageOwnerNickname)}</b></h1>
+            </div>
+            <div class="form">
+                <form action="/submit_changes" method="post">
+                    <input class="form-control" type="text" name="user_fullname" placeholder="Full name: " value="${fn:escapeXml(userFullname)}" ${fn:escapeXml(readOnly)} >
+                    <input class="form-control" type="text" name="user_university" placeholder="University: "  value="${fn:escapeXml(userUniversity)}" ${fn:escapeXml(readOnly)} >
+                    <input class="form-control" type="text" name="user_age" placeholder="Age: " value="${fn:escapeXml(userAge)}" ${fn:escapeXml(readOnly)} >
+                    <input class="form-control" type="text" name="user_address" placeholder="Address: " value="${fn:escapeXml(userAddress)}" ${fn:escapeXml(readOnly)} >
+                    <input class="form-control" type="text" name="user_interests" placeholder="Interests: " value="${fn:escapeXml(userInterests)}" ${fn:escapeXml(readOnly)} >
+                    <input type="hidden" name="user_nickname" value="${fn:escapeXml(pageOwnerNickname)}"/>
+                    <input type="hidden" name="user_email" value="${fn:escapeXml(userEmail)}"/>
 <%
         if (isYourProfile) {
 %>
-                <div>
-                    <input class="btn btn-success" type="submit" value="Submit changes"/>
-                </div>
-            </form>
+                    <div>
+                        <input class="btn btn-success" type="submit" value="Submit changes"/>
+                    </div>
+                </form>
 <%
             // @Marcin
         } else {
@@ -177,15 +177,61 @@ if (user != null) {
 
          if ( addFriend && !isYourProfile ) {
 %>
-            <form action="/add_friend" method="post">
-                    <input class="btn btn-info" type="submit" value="Add Friend" />
-                    <input type="hidden" name="currentUser" value="${fn:escapeXml(cur_nickname)}"/>
-                    <input type="hidden" name="pageOwner" value="${fn:escapeXml(pageOwnerNickname)}"/>
-            </form>
+                <form action="/add_friend" method="post">
+                        <input class="btn btn-info" type="submit" value="Add Friend" />
+                        <input type="hidden" name="currentUser" value="${fn:escapeXml(cur_nickname)}"/>
+                        <input type="hidden" name="pageOwner" value="${fn:escapeXml(pageOwnerNickname)}"/>
+                </form>
 <%
         }
 %>
+            </div>
+            <div class="addComment">
+                <div class="header text-center">
+                    <h1>Add a comment</h1>
+                </div>
+                <div class="form">
+                    <form action="/sign" method="post">
+                        <div>
+                            <textarea class="form-control" name="content" rows="3" cols="60"></textarea>
+                        </div>
+                        <div>
+                            <input class="btn btn-success" id="submit" type="submit" value="Post Comment"/>
+                        </div>
+                        <input type="hidden" name="nickname" value="${fn:escapeXml(user.nickname)}"/>
+                        <input type="hidden" name="guestbookName" value="${fn:escapeXml(pageOwnerNickname)}"/>
+                    </form>
+                </div>
+            </div>
+            <div class="changeGuestBook">
+                <div class="header text-center">
+                    <h1>Switch Guestbook</h1>
+                </div>
+                <form action="/guestbook_upd.jsp" method="get">
+                    <div>
+                        <input class="form-control" type="text" name="pageOwnerNickname" value=""/>
+                    </div>
+                    <div>
+                        <input class="btn btn-success" type="submit" value="Switch Guestbook"/>
+                    </div>
+                </form>
+            </div>
+            <div class="">
+                <div class="header text-center">
+                    <h1>Search interests</h1>
+                </div>
+                <form action="/search_interests" method="post">
+                    <div>
+                        <input class="form-control" type="text" name="interest" placeholder="football"/>
+                    </div>
+                    <div>
+                        <input class="btn btn-success" type="submit" value="Search interests"/>
+                    </div>
+                </form>
+            </div>
         </div>
+    <%--</div>--%>
+        <div class="col-md-6 comments">
 <%
         // Create the correct Ancestor key
         Key<Guestbook> theBook = Key.create(Guestbook.class, pageOwnerNickname);
@@ -196,11 +242,17 @@ if (user != null) {
                                            .ancestor(theBook).limit(10).list();
         if (greetings.isEmpty()) {
 %>
-        <p>Guestbook of <b>${fn:escapeXml(pageOwnerNickname)}</b> has no messages</p>
+
+            <div class="header text-center">
+                <h1>Guestbook of <b>${fn:escapeXml(pageOwnerNickname)}</b> has no messages</h1>
+            </div>
 <%
         } else {
 %>
-        <p>Messages in Guestbook of <b>${fn:escapeXml(pageOwnerNickname)}</b>.</p>
+
+            <div class="header text-center">
+                <h1>Messages in Guestbook of <b>${fn:escapeXml(pageOwnerNickname)}</b>.</h1>
+            </div>
 <%
               // Look at all of our greetings
             for (Greeting greeting : greetings) {
@@ -217,63 +269,21 @@ if (user != null) {
                 }
                 pageContext.setAttribute("greeting_user", author);
 %>
-        <p><b>${fn:escapeXml(greeting_user)}</b> wrote:</p>
-        <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
+            <p><b>${fn:escapeXml(greeting_user)}</b> wrote:</p>
+            <blockquote>${fn:escapeXml(greeting_content)}</blockquote>
 <%
             }
         }
 %>
-        <div class="col-md-12 addComment">
-            <div class="header text-center">
-                <h1>Add a comment</h1>
-            </div>
-            <div class="form">
-                <form action="/sign" method="post">
-                    <div>
-                        <textarea class="form-control" name="content" rows="3" cols="60"></textarea>
-                    </div>
-                    <div>
-                        <input class="btn btn-success" id="submit" type="submit" value="Post Comment"/>
-                    </div>
-                    <input type="hidden" name="nickname" value="${fn:escapeXml(user.nickname)}"/>
-                    <input type="hidden" name="guestbookName" value="${fn:escapeXml(pageOwnerNickname)}"/>
-                </form>
-            </div>
-        </div>
-        <div class="col-md-12 changeGuestBook">
-            <div class="header text-center">
-                <h1>Switch Guestbook</h1>
-            </div>
-            <form action="/guestbook_upd.jsp" method="get">
-                <div>
-                    <input class="form-control" type="text" name="pageOwnerNickname" value=""/>
-                </div>
-                <div>
-                    <input class="btn btn-success" type="submit" value="Switch Guestbook"/>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-12">
-            <div class="header text-center">
-                <h1>Search interests</h1>
-            </div>
-            <form action="/search_interests" method="post">
-                <div>
-                    <input class="form-control" type="text" name="interest" placeholder="football"/>
-                </div>
-                <div>
-                    <input class="btn btn-success" type="submit" value="Search interests"/>
-                </div>
-            </form>
         </div>
     </div>
-</div>
+<%--</div>--%>
         <%
     } else {
             %>
-            <div class="center addComment">
-                <p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in OurBook</p>
-            </div>
+    <div class="center addComment">
+        <p>User <b>${fn:escapeXml(pageOwnerNickname)}</b> is not registered in OurBook</p>
+    </div>
             <%
     }
 
@@ -281,20 +291,18 @@ if (user != null) {
 } else {
 %>
 
-<div class="container text-center">
-    <div class="center">
-        <div class="header">
-            <h1>Welcome to FaceBook1994!</h1>
-        </div>
-        <div class="form">
-            <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">
-                <button class="btn btn-success">Sign in</button>
-            </a>
+    <div class="container text-center">
+        <div class="center">
+            <div class="header">
+                <h1>Welcome to OurBook!</h1>
+            </div>
+            <div class="form">
+                <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">
+                    <button class="btn btn-success">Sign in</button>
+                </a>
+            </div>
         </div>
     </div>
-</div>
-
-
 <%
 }
 %>
