@@ -58,13 +58,13 @@ if (user != null) {
             </div>
             <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
                 <li>
-                    <a href="">${fn:escapeXml(user.nickname)}</a>
+                    <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_nickname)}">${fn:escapeXml(user.nickname)}</a>
                 </li>
                 <li>
-                    <a href="">Home</a>
+                    <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(cur_nickname)}">Home</a>
                 </li>
                 <li>
-                    <a href="">Friends</a>
+                    <a href="/friendRequests.jsp?pageOwnerNickname=${fn:escapeXml(cur_nickname)}">Friends</a>
                 </li>
                 <li>
                     <a href="<%= userService.createLogoutURL(request.getRequestURI()) %>">Sign out</a>
@@ -92,7 +92,7 @@ if (user != null) {
         <h3>You are the only one user with interest in <b>${fn:escapeXml(interest)}</b> :(</h3>
     </div>
 <%
-    } if (interest.length() == 0) {
+    } else if (interest.length() == 0) {
 %>
     <div class="header text-center">
         <h3>You did not specify any interest</h3>
@@ -132,7 +132,7 @@ if (user != null) {
 <div class="container text-center">
     <div class="center">
         <div class="header">
-            <h1>Welcome to FaceBook1994!</h1>
+            <h1>Welcome to OurBook!</h1>
         </div>
         <div class="form">
             <a href="<%= userService.createLoginURL(request.getRequestURI()) %>">
