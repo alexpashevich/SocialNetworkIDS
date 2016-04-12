@@ -21,6 +21,7 @@
     <title>OurBook</title>
     <link type="text/css" rel="stylesheet" href="/stylesheets/vendor/bootstrap.min.css"/>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32x32.png">
 </head>
 
 <body>
@@ -52,7 +53,7 @@ if (user != null) {
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">
-                    <img id="logo" class="img-responsive" src="" alt="Logo">
+                    <img id="logo" class="img-responsive" src="imgs/logo.gif" alt="Logo">
                 </a>
             </div>
             <ul class="nav navbar-nav navbar-right collapse navbar-collapse">
@@ -72,44 +73,59 @@ if (user != null) {
         </div>
     </nav>
 </header>
-
+<body>
+    <div class="center userlist">
 <%
 
     List<Profile> profiles = ObjectifyService.ofy().load().type(Profile.class).list();
     ArrayList<Profile> sameInterests = new ArrayList<Profile>();
 
     for (Profile profile: profiles) {
-      if (profile.user_interests.toLowerCase().contains(interest) && interest.length() > 0) {
+      if (profile.user_interests.toLowerCase().contains(interest) && interest.length() > 0 && !profile.user_nickname.equals(cur_nickname)) {
         sameInterests.add(profile);
       }
     }
 
     if (sameInterests.isEmpty() && interest.length() > 0) {
 %>
-    <p>You are the only one user with interest in <b>${fn:escapeXml(interest)}</b> :( </p>
+    <div class="header text-center">
+        <h3>You are the only one user with interest in <b>${fn:escapeXml(interest)}</b> :(</h3>
+    </div>
 <%
     } if (interest.length() == 0) {
 %>
-    <p>You did not specify any interest</p>
+    <div class="header text-center">
+        <h3>You did not specify any interest</h3>
+    </div>
 <%
     } else {
 %>
-    <p>Users that share your interest in <b>${fn:escapeXml(interest)}</b>:</p>
+    <div class="header text-center">
+        <h3>Users that share your interest in <b>${fn:escapeXml(interest)}</b>:</h3>
+    </div>
+    <ul>
 <%
         for (Profile profile : sameInterests) {
             pageContext.setAttribute("buddy_nickname", profile.user_nickname);
             pageContext.setAttribute("buddy_interest", profile.user_interests);
 %>
-    <p>
-        <a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(buddy_nickname)}" >
+    <li>
+        <h4><a href="/guestbook_upd.jsp?pageOwnerNickname=${fn:escapeXml(buddy_nickname)}">
             <b>${fn:escapeXml(buddy_nickname)}</b>
-        </a> is interested in ${fn:escapeXml(buddy_interest)}
-    </p>
+        </a> is interested in ${fn:escapeXml(buddy_interest)}</h4>
+    </li>
 <%
         }
+%>
+    </ul>
+<%
     }
+%>
 
+    </div>
+</body>
 
+<%
 } else {
 %>
 
