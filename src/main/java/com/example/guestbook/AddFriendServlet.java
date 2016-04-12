@@ -62,8 +62,8 @@ public class AddFriendServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
  */
-//        resp.sendRedirect("/guestbook_upd.jsp?pageOwnerNickname=" + pageOwner);
-        resp.sendRedirect(".");
+        resp.sendRedirect("/guestbook_upd.jsp?pageOwnerNickname=" + pageOwner);
+//        resp.sendRedirect(".");
     }
 
     @Override

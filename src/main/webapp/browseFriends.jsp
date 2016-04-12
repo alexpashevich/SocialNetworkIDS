@@ -125,12 +125,12 @@
                     </a>
                 </div>
                 <%
-                    if ( !currUserFriendsList.contains( friend ) || friend.equals(cur_nickname)) {
+                    if ( !currUserFriendsList.contains( friend ) && !friend.equals(cur_nickname)) {
 
 
                 %>
                 <div class="col-md-6 text-right">
-                    <a href="/add_friend?currentUser=${fn:escapeXml(cur_user)}&friend=${fn:escapeXml(yourFriend)}">
+                    <a href="/add_friend?currentUser=${fn:escapeXml(cur_user)}&pageOwner=${fn:escapeXml(yourFriend)}">
                         <button class="btn btn-info disapprove">Add friend</button>
                     </a>
                 </div>

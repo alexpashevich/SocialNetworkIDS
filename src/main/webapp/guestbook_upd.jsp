@@ -276,6 +276,12 @@ if (user != null) {
         }
 %>
         </div>
+
+    </div>
+    <div class="browseBtn">
+        <a href="browseFriends.jsp?pageOwnerNickname=${fn:escapeXml(pageOwnerNickname)}">
+            <button class="btn btn-info">Browse Friends</button>
+        </a>
     </div>
 <%--</div>--%>
         <%

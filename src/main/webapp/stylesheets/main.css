@@ -83,3 +83,10 @@ textarea {
 .comments blockquote:last-child {
     border-bottom: none;
 }
+.browseBtn {
+    height: 40px;
+    width: 180px;
+    left: 70px;
+    bottom: 450px;
+    position: fixed;
+}
