@@ -43,7 +43,7 @@ public class Greeting {
   @Parent Key<Guestbook> theBook;
   @Id public Long id;
 
-  public String author_email;
+  public String author_nickname;
   public String author_id;
   public String content;
   @Index public Date date;
@@ -71,9 +71,9 @@ public class Greeting {
   /**
    * Takes all important fields
    **/
-  public Greeting(String book, String content, String id, String email) {
+  public Greeting(String book, String content, String id, String nickname) {
     this(book, content);
-    author_email = email;
+    author_nickname = nickname;
     author_id = id;
   }
 
